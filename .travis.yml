@@ -6,4 +6,7 @@ go:
 install:
   - go get -u github.com/stretchr/testify
 
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
 sudo: false
