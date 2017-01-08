@@ -21,7 +21,12 @@ import (
 )
 
 const (
-	apiURL = "https://query.yahooapis.com/v1/public/yql"
+	apiURL       = "https://query.yahooapis.com/v1/public/yql"
+	apiQueryKey  = "q"
+	apiFormatKey = "format"
+	apiFormat    = "json"
+	apiEnvKey    = "env"
+	apiEnv       = "store://datatables.org/alltableswithkeys"
 	// DateFormat for yahoo finance api
 	DateFormat = "2006-01-02"
 )
@@ -52,12 +57,22 @@ type YApi struct {
 	http   *http.Client
 }
 
-// NewYApi create a new yahoo finance api error
+// NewYApi create a new yahoo finance api object
 //
 // Returns the new api object
 func NewYApi() *YApi {
 	return &YApi{
 		apiURL: apiURL,
+		http:   &http.Client{},
+	}
+}
+
+// NewYApiTest create a new yahoo finance api test object
+//
+// Returns the new api object
+func NewYApiTest(URL string) *YApi {
+	return &YApi{
+		apiURL: URL,
 		http:   &http.Client{},
 	}
 }
@@ -74,16 +89,16 @@ func (api *YApi) Query(query string, responseObject interface{}) error {
 		return err
 	}
 	q := u.Query()
-	q.Set("q", query)
-	q.Set("format", "json")
-	q.Set("env", "store://datatables.org/alltableswithkeys")
+	q.Set(apiQueryKey, query)
+	q.Set(apiFormatKey, apiFormat)
+	q.Set(apiEnvKey, apiEnv)
 	u.RawQuery = q.Encode()
 	resp, err := api.http.Get(u.String())
 	defer resp.Body.Close()
 	if err != nil {
 		return err
 	}
-	if resp.StatusCode != 200 {
+	if resp.StatusCode != http.StatusOK {
 		var yerr YApiError
 		err = json.NewDecoder(resp.Body).Decode(&yerr)
 		if err != nil {
