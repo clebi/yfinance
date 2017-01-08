@@ -1,0 +1,9 @@
+language: go
+
+go:
+  - 1.7
+  
+install:
+  - go get -u github.com/stretchr/testify
+  
+sudo: false
