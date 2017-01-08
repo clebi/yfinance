@@ -44,7 +44,7 @@ type HistoryQuery struct {
 	Results HistoryResults `json:"results"`
 }
 
-// HistoryResponse is the reponse of the history query
+// HistoryResponse is the response of the history query
 type HistoryResponse struct {
 	Query HistoryQuery `json:"query"`
 }
