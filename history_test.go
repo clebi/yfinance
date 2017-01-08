@@ -37,7 +37,7 @@ func (api *MockYApi) Query(query string, responseObject interface{}) error {
 }
 
 func TestGetHistory(t *testing.T) {
-	stocks := []Stock{Stock{Open: 1.1, High: 2.2, Low: 3.3, Close: 4.4, Volume: 999, Symbol: "TEST"}}
+	stocks := []Stock{{Open: 1.1, High: 2.2, Low: 3.3, Close: 4.4, Volume: 999, Symbol: "TEST"}}
 	var argObject HistoryResponse
 	mockYApi := &MockYApi{}
 	mockYApi.On("Query", selectStr, &argObject).
