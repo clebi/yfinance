@@ -19,6 +19,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"time"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -39,6 +40,11 @@ func TestQuery(t *testing.T) {
 	assert.Equal(t, testQueryLength, responseObject.Query.Count)
 	assert.Len(t, responseObject.Query.Results.Stocks, testQueryLength)
 	stock := responseObject.Query.Results.Stocks[0]
+	date, err := time.Parse(DateFormat, "2016-12-01")
+	if err != nil {
+		t.Fatal(err)
+	}
+	assert.EqualValues(t, YTime{date}, stock.Date)
 	assert.EqualValues(t, 1.1, stock.Open)
 	assert.EqualValues(t, 1.2, stock.High)
 	assert.EqualValues(t, 1.3, stock.Low)

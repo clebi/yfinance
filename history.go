@@ -25,6 +25,7 @@ const (
 
 // Stock is an object containing stock values
 type Stock struct {
+	Date   YTime   `json:"Date,string"`
 	Open   float32 `json:"Open,string"`
 	High   float32 `json:"High,string"`
 	Low    float32 `json:"Low,string"`
