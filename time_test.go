@@ -25,7 +25,7 @@ func TestMarshalJSON(t *testing.T) {
 	now := YTime{time.Now()}
 	timeBytes, err := now.MarshalJSON()
 	assert.Nil(t, err)
-	assert.Equal(t, now.Format(DateFormat), string(timeBytes))
+	assert.Equal(t, "\""+now.Format(DateFormat)+"\"", string(timeBytes))
 }
 
 func TestUnmarshalJSON(t *testing.T) {

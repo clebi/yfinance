@@ -15,6 +15,7 @@
 package finance
 
 import (
+	"bytes"
 	"strings"
 	"time"
 )
@@ -26,7 +27,10 @@ type YTime struct {
 
 // MarshalJSON encode a date from yahoo api
 func (t *YTime) MarshalJSON() ([]byte, error) {
-	return []byte(t.Format(DateFormat)), nil
+	buffer := bytes.NewBufferString("\"")
+	buffer.WriteString(t.Format(DateFormat))
+	buffer.WriteString("\"")
+	return []byte(buffer.Bytes()), nil
 }
 
 // UnmarshalJSON decode a date from yahoo api
