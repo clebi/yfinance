@@ -50,6 +50,11 @@ type HistoryResponse struct {
 	Query HistoryQuery `json:"query"`
 }
 
+// HistoryAPI allows to retrieve stocks history
+type HistoryAPI interface {
+	GetHistory(symbol string, start time.Time, end time.Time) ([]Stock, error)
+}
+
 // History is the object to manage history api
 type History struct {
 	IYApi
@@ -59,8 +64,8 @@ type History struct {
 // NewHistory creates a new History api object
 //
 // Return the new history api object
-func NewHistory() History {
-	return History{
+func NewHistory() HistoryAPI {
+	return &History{
 		table: historyTable,
 		IYApi: NewYApi(),
 	}
@@ -69,8 +74,8 @@ func NewHistory() History {
 // NewHistoryTest create an new history api object for test
 //
 // Returns the new history api test object
-func NewHistoryTest(mockHistory IYApi) History {
-	return History{
+func NewHistoryTest(mockHistory IYApi) HistoryAPI {
+	return &History{
 		table: historyTable,
 		IYApi: mockHistory,
 	}
