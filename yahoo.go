@@ -94,10 +94,10 @@ func (api *YApi) Query(query string, responseObject interface{}) error {
 	q.Set(apiEnvKey, apiEnv)
 	u.RawQuery = q.Encode()
 	resp, err := api.http.Get(u.String())
-	defer resp.Body.Close()
 	if err != nil {
 		return err
 	}
+	defer resp.Body.Close()
 	if resp.StatusCode != http.StatusOK {
 		var yerr YApiError
 		err = json.NewDecoder(resp.Body).Decode(&yerr)
